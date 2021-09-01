@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Alminhas no Concelho de Vale de Cambra</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Alminhas - Mapa interactivo">
+        <meta name="keywords" content="Alminhas, WebSig, Mapa Interactivo, Vale de Cambra">
+        <meta name="author" content="Ezequiel Correia, Projecto Alminhas">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <link rel="stylesheet" href="dist/leaflet.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="dist/L.Control.Sidebar.css"/>
+        <link rel="stylesheet" href="dist/L.Control.Locate.min.css"/>
+        <link rel="stylesheet" href="dist/MarkerCluster.css"/>
+        <link rel="stylesheet" href="dist/MarkerCluster.Default.css"/> 
+        <script src="dist/leaflet.js"></script>
+        <script src="dist/L.Control.Sidebar.js"></script>
+        <script src="dist/L.Control.Locate.js"></script>
+        <script src="dist/leaflet.markercluster.js"></script>
+        <script src="dist/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="data/vc_3108.geojson"></script>
+    </head>
+    <style>
+        body{
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #mapCanvas{
+            width: 99vw;
+            height: 85vh;
+        }
+        #titulo{
+            color: #874703;
+        }
+        #freguesias{
+            color: #874703;
+        }
+        #selbox{
+            color:gray;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); 
+            border-radius: 15px
+        }
+        #contador{
+            color: #874703;
+        }
+        #linha{
+            border: 1px solid #9c5f1f;
+        }
+    </style>
+    <body>
+        <h2 id="titulo">Alminhas - concelho de Vale de Cambra</h2>
+        <div id="freguesias">Freguesias
+            <select id="selbox" onchange="selFreg()">
+                <option value="Todas">Todas</option>
+            </select>
+            <span id="contador"></span>
+        </div>
+        <hr id="linha">
+        <div id="mapCanvas"></div>
+        <div id="sidebar"></div>
+        <script src="layers.js"></script>
+    </body>
+</html>
