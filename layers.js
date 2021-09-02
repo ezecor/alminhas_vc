@@ -44,7 +44,7 @@ markers = L.markerClusterGroup({
 markers.addLayer(geojson);
 map.addLayer(markers);
 map.fitBounds(markers.getBounds());
-document.getElementById('contador').innerHTML = "Nº de alminhas:" + counter;
+document.getElementById('contador').innerHTML = "Nº de alminhas: " + counter;
 var selectbox = document.getElementById('selbox');
 var uniqueNames = [];
 $.each(freg, function (i, el) {
