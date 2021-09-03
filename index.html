@@ -27,6 +27,9 @@
             max-width: 100%;
             max-height: 100%;
         }
+        #topo{
+            background-color: #6d8759;
+        }
         #mapCanvas{
             width: 99vw;
             height: 85vh;
@@ -44,23 +47,25 @@
             border-radius: 10px
         }
         #contador{
-            color:#f5f5dc;
+            color: #f5f5dc;
         }
         #linha{
             border: 1px solid #f5f5dc;
         }
     </style>
     <body>
-        <h2 id="titulo">ALMINHAS - Vale de Cambra</h2>
+        <div id="topo">
+        <h1 id="titulo">ALMINHAS - Vale de Cambra</h1>
         <div id="freguesias">Freguesias
             <select id="selbox" onchange="selFreg()">
                 <option value="Todas">Todas</option>
             </select>
         </div>
         <div id="contador"></div>
+        </div>
         <hr id="linha">
         <div id="mapCanvas"></div>
-        <div id="sidebar"></div>
+        <div id="sidebar" style="font-family: Roboto, sans-serif"></div>
         <script src="layers.js"></script>
     </body>
 </html>
