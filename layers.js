@@ -52,7 +52,9 @@ $.each(freg, function (i, el) {
         uniqueNames.push(el);
     }
 });
-uniqueNames.sort();
+uniqueNames.sort(function(a, b) {
+    return a.localeCompare(b);
+});
 var i;
 for (i = 0; i < uniqueNames.length; i++) {
     var opt = document.createElement('option');
@@ -75,7 +77,14 @@ function atributos(feature, layer) {
     layer.on({
         click:
             function populate() {
-                sidebar.setContent("<img height='200' src=" + feature.properties["gx_media_links"] + " >" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br> <a href='" + feature.properties["OBS"] + "' target='popup'>Ver mais</a>");
+                var obs = feature.properties["OBS"];
+                if (obs == null) {
+                    obs = "";
+                } else {
+                    obs = "<a href='" + feature.properties["OBS"] + "' target='popup'><b>Ficha de inventário</b></a>";
+                }
+                sidebar.setContent("<img height='200' src=" + feature.properties["gx_media_links"] + " >" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
+
                 if (realce == null) {
                     realce = L.circleMarker([feature.properties.LAT, feature.properties.LONG], {
                         "radius": 15,
