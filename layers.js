@@ -10,7 +10,7 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
 var map = L.map('mapCanvas', {
     center: [40.85, -8.41],
     zoom: 7,
-    layers: [CartoDB_Positron]
+    layers: [osm_mapnik]
 });
 var baseMaps = {
     "CartoDB": CartoDB_Positron,
