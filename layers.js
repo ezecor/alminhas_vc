@@ -30,7 +30,7 @@ var lc = L.control.locate({
         title: "A minha posição!"
     },
     locateOptions: {
-        maxZoom: 15
+        maxZoom: 10
     }
 });
 lc.addTo(map);
