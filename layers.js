@@ -40,7 +40,6 @@ var markers;
 var realce;
 var foto;
 var lugar;
-var fotoBox;
 var geojson = L.geoJSON(alminhas, {
     onEachFeature: atributos
 });
@@ -91,7 +90,7 @@ function atributos(feature, layer) {
                 }
                 foto = feature.properties["gx_media_links"];
                 lugar = feature.properties.name;
-                sidebar.setContent("<img height='200' src=" + foto + " style='cursor:zoom-in' onclick='ampliafoto()'>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
+                sidebar.setContent("<a class='exemple-image-link' href=" + foto + " data-lightbox='image1' data-title=" + lugar + "><img height='200' src=" + foto + " style='cursor:zoom-in'></a>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
 
                 if (realce == null) {
                     realce = L.circleMarker([feature.properties.LAT, feature.properties.LONG], {
@@ -137,12 +136,5 @@ function selFreg() {
     map.addLayer(markers);
     map.fitBounds(markers.getBounds());
     document.getElementById('contador').innerHTML = "Nº de alminhas: " + counter;
-}
-function ampliafoto(){
-        var conteudo="<img src=" + foto + ">";
-        fotobox = L.control.window(map,{maxWidth:800,title:lugar,modal:true})
-            .content(conteudo)
-            .show();
-}
-                     
+}                
         
