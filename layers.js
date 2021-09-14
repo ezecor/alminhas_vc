@@ -38,6 +38,9 @@ var counter = 0;
 var freg = [];
 var markers;
 var realce;
+var foto;
+var lugar;
+var fotoBox;
 var geojson = L.geoJSON(alminhas, {
     onEachFeature: atributos
 });
@@ -86,7 +89,9 @@ function atributos(feature, layer) {
                 } else {
                     obs = "<a href='" + feature.properties["OBS"] + "' target='popup'><b>Ficha de inventário</b></a>";
                 }
-                sidebar.setContent("<img height='200' src=" + feature.properties["gx_media_links"] + " >" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
+                foto = feature.properties["gx_media_links"];
+                lugar = feature.properties.name;
+                sidebar.setContent("<img height='200' src=" + foto + " style='cursor:zoom-in' onclick='ampliafoto()'>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
 
                 if (realce == null) {
                     realce = L.circleMarker([feature.properties.LAT, feature.properties.LONG], {
@@ -133,3 +138,11 @@ function selFreg() {
     map.fitBounds(markers.getBounds());
     document.getElementById('contador').innerHTML = "Nº de alminhas: " + counter;
 }
+function ampliafoto(){
+        var conteudo="<img src=" + foto + ">";
+        fotobox = L.control.window(map,{maxWidth:800,title:lugar,modal:true})
+            .content(conteudo)
+            .show();
+}
+                     
+        
