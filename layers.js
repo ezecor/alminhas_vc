@@ -39,7 +39,6 @@ var freg = [];
 var markers;
 var realce;
 var foto;
-var lugar;
 var geojson = L.geoJSON(alminhas, {
     onEachFeature: atributos
 });
@@ -89,8 +88,7 @@ function atributos(feature, layer) {
                     obs = "<a href='" + feature.properties["OBS"] + "' target='popup'><b>Ficha de inventário</b></a>";
                 }
                 foto = feature.properties["gx_media_links"];
-                lugar = feature.properties.name;
-                sidebar.setContent("<div class='image-row'><a class='example-image-link' href=" + foto + " data-lightbox='image1' data-title=" + lugar + " target=_blank><img height='200' src=" + foto + " style='cursor:zoom-in'></a></div>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
+                sidebar.setContent("<div><a href=" + foto + " target=_blank><img height='200' src=" + foto + " style='cursor:zoom-in'></a></div>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
 
                 if (realce == null) {
                     realce = L.circleMarker([feature.properties.LAT, feature.properties.LONG], {
