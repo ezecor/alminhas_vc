@@ -30,15 +30,18 @@ var lc = L.control.locate({
         title: "A minha posição!"
     },
     locateOptions: {
-        maxZoom: 10
+               maxZoom: 15
     }
 });
 lc.addTo(map);
 var counter = 0;
 var freg = [];
+var lugar = [];
 var markers;
 var realce;
 var foto;
+var lugs = L.featureGroup();
+var lugsel = false;
 var geojson = L.geoJSON(alminhas, {
     onEachFeature: atributos
 });
@@ -88,8 +91,7 @@ function atributos(feature, layer) {
                     obs = "<a href='" + feature.properties["OBS"] + "' target='popup'><b>Ficha de inventário</b></a>";
                 }
                 foto = feature.properties["gx_media_links"];
-                sidebar.setContent("<div><a href=" + foto + " target=_blank><img height='200' src=" + foto + " style='cursor:zoom-in'></a></div>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
-
+                sidebar.setContent("<div><a href=" + foto + " target=_blank><img height='200' src=" + feature.properties["gx_media_links"] + " style='cursor:zoom-in'></a></div>" + "<br>LUGAR: " + feature.properties.name + "<br>FREGUESIA: " + feature.properties.FREGUESIA + "<br>PAINEL: " + feature.properties.PAINEL + "<br> DESCRIÇÃO DO ORATÓRIO: " + feature.properties["DESCRIÇÃO DO ORATÓRIO"] + "<br><br>" + obs);
                 if (realce == null) {
                     realce = L.circleMarker([feature.properties.LAT, feature.properties.LONG], {
                         "radius": 15,
@@ -102,11 +104,22 @@ function atributos(feature, layer) {
                     realce.setLatLng([feature.properties.LAT, feature.properties.LONG]);
                 }
                 sidebar.show();
+                removeLugLayer();
             }
     });
     freg.push(feature.properties.FREGUESIA);
+    lugar.push(feature.properties.name);
+}
+function removeLugLayer(){
+        if (map.hasLayer(lugs)) {
+            map.removeLayer(lugs);
+            lugsel=false;
+        }
 }
 function selFreg() {
+    if (map.hasLayer(lugs)) {
+        removeLugLayer();
+    }
     map.removeLayer(markers);
     if (realce != null) {
         map.removeLayer(realce);
@@ -132,7 +145,61 @@ function selFreg() {
     });
     markers.addLayer(geojson);
     map.addLayer(markers);
-    map.fitBounds(markers.getBounds());
+    if (lugsel==false){
+        map.fitBounds(markers.getBounds());
+        }
     document.getElementById('contador').innerHTML = "Nº de alminhas: " + counter;
-}                
-        
+}
+$( function() {
+    var listaLugares = [];
+    $.each(lugar, function (i, el) {
+        if ($.inArray(el, listaLugares) === -1) {
+            listaLugares.push(el);
+        } 
+    });
+    listaLugares.sort(function(a, b) {
+        return a.localeCompare(b);
+    });    
+    $( "#lugares" ).autocomplete({
+        minLength: 2,
+        delay: 500,
+        source: listaLugares
+    });
+});
+$( "#lugares" ).on( "autocompleteselect", function( event, ui ) {
+    lugarSelect(ui.item.label);
+    ui.item.value='';
+});
+function lugarSelect(a){
+    lugsel=true;
+    if (map.hasLayer(lugs)) {
+        removeLugLayer();
+    }
+    if (realce != null) {
+        map.removeLayer(realce);
+        realce = null;
+    }
+    if (document.getElementById('selbox').value != "Todas") {
+        document.getElementById('selbox').value = "Todas";
+        selFreg();
+    }
+    if (sidebar.isVisible() == true) {
+        sidebar.hide();
+    }
+    lugs = L.geoJSON(alminhas, {
+        filter: function (feature, layer) {
+            return (feature.properties.name == a);
+        },
+        pointToLayer: function(feature, latlng){
+            return new L.circleMarker([feature.properties.LAT, feature.properties.LONG], {
+                "radius": 15,
+                "fillColor": "#9c5f1f",
+                "color": "red",
+                "weight": 1,
+                "opacity": 1
+            });
+        }
+    });
+    map.addLayer(lugs);
+    map.fitBounds(lugs.getBounds());
+}
